@@ -52,6 +52,16 @@
         "id": 409,
         "cat": "Misc",
         "desc": "Misc (其他)"
+      },
+      {
+        "id": 410,
+        "cat": "Document",
+        "desc": "Document (学习)"
+      },
+      {
+        "id": 412,
+        "cat": "Game",
+        "desc": "Game (游戏)"
       }
     ]
   },
