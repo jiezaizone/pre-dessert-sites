@@ -1,7 +1,7 @@
 {
-  "id": "hhanclub",
-  "name": "憨憨",
-  "domain": "https://hhanclub.top/",
+  "id": "ggpt",
+  "name": "GGPT",
+  "domain": "https://www.gamegamept.com/",
   "encoding": "UTF-8",
   "public": false,
   "search": {
@@ -23,36 +23,41 @@
     "movie": [
       {
         "id": 401,
-        "cat": "Movies",
-        "desc": "Movies/电影"
+        "cat": "PC游戏",
+        "desc": "PC游戏"
       }
     ],
     "tv": [
       {
         "id": 404,
-        "cat": "TV/Documentary",
-        "desc": "Documentaries/纪录片"
+        "cat": "索尼主机游戏",
+        "desc": "索尼主机游戏"
       },
       {
-        "id": 405,
-        "cat": "TV/Anime",
-        "desc": "Animations/动漫"
+        "id": 406,
+        "cat": "c_game",
+        "desc": "任天堂主机游戏"
       },
       {
-        "id": 402,
-        "cat": "TV",
-        "desc": "TV Series/连续剧"
+        "id": 407,
+        "cat": "苹果游戏",
+        "desc": "苹果游戏"
       },
       {
-        "id": 403,
-        "cat": "TV",
-        "desc": "TV Shows/综艺"
+        "id": 409,
+        "cat": "安卓游戏",
+        "desc": "安卓游戏"
+      },
+      {
+        "id": 410,
+        "cat": "游戏书藉",
+        "desc": "游戏书藉"
       }
     ]
   },
   "torrents": {
     "list": {
-      "selector": "div.torrent-table-sub-info"
+      "selector": "table.torrents > tr:has(\"table.torrentname\")"
     },
     "fields": {
       "id": {
@@ -66,7 +71,7 @@
         ]
       },
       "category": {
-        "selector": "a[href*=\"?cat[]=\"]",
+        "selector": "a[href*=\"?cat=\"]",
         "attribute": "href",
         "filters": [
           {
@@ -76,14 +81,12 @@
         ]
       },
       "title_default": {
-        "selector": "a[href*=\"details.php?id=\"]",
-        "remove": "span"
+        "selector": "a[href*=\"details.php?id=\"]"
       },
       "title_optional": {
         "optional": true,
         "selector": "a[title][href*=\"details.php?id=\"]",
-        "attribute": "title",
-        "remove": "span"
+        "attribute": "title"
       },
       "title": {
         "text": "{% if fields['title_optional'] %}{{ fields['title_optional'] }}{% else %}{{ fields['title_default'] }}{% endif %}"
@@ -101,23 +104,23 @@
         "attribute": "href"
       },
       "size": {
-        "selector": "div.torrent-info-text-size"
+        "selector": "td.rowfollow:nth-child(5)"
       },
       "grabs": {
-        "selector": "div.torrent-info-text-finished"
+        "selector": "td.rowfollow:nth-child(8)"
       },
       "seeders": {
-        "selector": "div.torrent-info-text-seeders > a[href*=\"#seeders\"]"
+        "selector": "td.rowfollow:nth-child(6)"
       },
       "leechers": {
-        "selector": "div.torrent-info-text-leechers > a[href*=\"#leechers\"]"
+        "selector": "td.rowfollow:nth-child(7)"
       },
       "date_elapsed": {
-        "selector": "div.torrent-info-text-added > span",
+        "selector": "td.rowfollow:nth-child(4) > span",
         "optional": true
       },
       "date_added": {
-        "selector": "div.torrent-info-text-added > span",
+        "selector": "td.rowfollow:nth-child(4) > span",
         "attribute": "title",
         "optional": true
       },
@@ -132,27 +135,27 @@
       },
       "downloadvolumefactor": {
         "case": {
-          "span.promotion-tag-free": 0,
-          "span.promotion-tag-free2up": 0,
-          "span.promotion-tag-50pctdown": 0.5,
-          "span.promotion-tag-50pctdown2up": 0.5,
-          "span.promotion-tag-30pctdown": 0.3,
+          "img.pro_free": 0,
+          "img.pro_free2up": 0,
+          "img.pro_50pctdown": 0.5,
+          "img.pro_50pctdown2up": 0.5,
+          "img.pro_30pctdown": 0.3,
           "*": 1
         }
       },
       "uploadvolumefactor": {
         "case": {
-          "span.promotion-tag-50pctdown2up": 2,
-          "span.promotion-tag-free2up": 2,
-          "span.promotion-tag-2up": 2,
+          "img.pro_50pctdown2up": 2,
+          "img.pro_free2up": 2,
+          "img.pro_2up": 2,
           "*": 1
         }
       },
       "free_deadline": {
         "default_value": "{% if fields['downloadvolumefactor']==0 %}{{max_time}}{% endif%}",
         "default_value_format": "%Y-%m-%d %H:%M:%S.%f",
-        "selector": "span.promotion-tag-free,span.promotion-tag-free2up",
-        "attribute": "onmouseover",
+        "selector": "div > b > span[title]",
+        "attribute": "title",
         "filters": [
           {
             "name": "dateparse",
@@ -160,21 +163,25 @@
           }
         ]
       },
-      "labels": {
-        "selector": "div.items-center > a > span.tag"
-      },
       "tags": {
-        "selector": "div.items-center > a > span.tag"
+        "selector": "div > a.torrents-tag"
       },
       "subject": {
-        "selector": "div.torrent-title > div > div.items-center > div.text-ellipsis"
+        "selector": "td.embedded:nth-child(2) > div > div:nth-child(2) > span",
+        "contents": -1
       },
       "description": {
-        "selector": "div.torrent-info-text-small_name"
+        "selector": "td:nth-child(2) > table.torrentname > tr > td:nth-child(2)",
+        "remove": "img,a,b,span",
+        "contents": -1
+      },
+      "labels": {
+        "selector": "td:nth-child(2) > table.torrentname > tr > td:nth-child(2) > span"
       },
       "hr_days": {
-        "default_value": 3,
-        "selector": "div.text-\\[12px\\].text-\\[\\#FFFFFF\\].bg-\\[\\#000000\\].torrent-info-hr.rounded-md.px-\\[5px\\]",
+        "default_value": 2,
+        "selector": "img.hitandrun",
+        "attribute": "title",
         "filters": [
           {
             "name": "re_search",
@@ -188,12 +195,12 @@
     }
   },
   "price": {
-    "FREE": ["//span[contains(@class, 'promotion-tag-free')]"],
-    "2XFREE": ["//span[contains(@class, 'promotion-tag-2xfree')]"],
-    "HR": ["//span[contains(text(), 'H&R')]"],
-    "PEER_COUNT": ["//div[@id='seeder-count']"]
+    "FREE": ["//h1[@id='top']/b/font[@class='free']"],
+    "2XFREE": ["//h1[@id='top']/b/font[@class='twoupfree']"],
+    "HR": ["//h1[@id='top']/img[@class='hitandrun']"],
+    "PEER_COUNT": ["//div[@id='peercount']/b[1]"]
   },
-  "system_type": "nexus_hhclub",
+  "system_type": "nexus_php",
   "my_hr": {
     "url": "myhr.php?status=1",
     "method": "get",
